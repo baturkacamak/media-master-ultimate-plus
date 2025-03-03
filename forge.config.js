@@ -14,7 +14,7 @@ module.exports = {
             name: '@electron-forge/maker-squirrel',
             config: {
                 name: 'MediaMasterUltimatePlus',
-                iconUrl: 'https://your-site.com/icon.ico',
+                iconUrl: 'https://raw.githubusercontent.com/baturkacamak/media-master-ultimate-plus/refs/heads/main/resources/icon.ico',
                 setupIcon: './resources/icon.ico',
             },
         },
@@ -63,7 +63,6 @@ module.exports = {
                         x: 130,
                         y: 220,
                         type: 'file',
-                        path: '${source}/MediaMasterUltimatePlus.app',
                     },
                 ],
             },
