@@ -24,7 +24,7 @@ MEDIA MASTER - Ultimate Media Organizer Plus is a powerful desktop application f
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/media-master.git
+git clone https://github.com/baturkacamak/media-master-ultimate-plus
 cd media-master
 ```
 

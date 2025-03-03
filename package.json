@@ -22,7 +22,7 @@
     "photo",
     "video"
   ],
-  "author": "Your Name",
+  "author": "Batur Kacamak",
   "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",

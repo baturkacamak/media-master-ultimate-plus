@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { RootState, useAppDispatch } from '@/store';
 import {
     loadProfiles,
     loadProfile,
@@ -33,7 +33,7 @@ import {
 
 const SettingsScreen: React.FC = () => {
     const { t, i18n } = useTranslation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     // Redux state
     const {
