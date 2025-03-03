@@ -58,51 +58,6 @@ input, select, textarea {
     border-color: #555;
 }
 
-/* Custom classes */
-.btn {
-    @apply px-4 py-2 rounded-md font-medium transition-colors duration-150;
-}
-
-.btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
-}
-
-.btn-secondary {
-    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600;
-}
-
-.btn-success {
-    @apply bg-green-600 text-white hover:bg-green-700;
-}
-
-.btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700;
-}
-
-.card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
-}
-
-.form-group {
-    @apply mb-4;
-}
-
-.form-label {
-    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
-}
-
-.form-input {
-    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white;
-}
-
-.form-select {
-    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white;
-}
-
-.form-checkbox {
-    @apply h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-700 rounded focus:ring-blue-500 dark:bg-gray-700;
-}
-
 /* Scrollbar styling */
 ::-webkit-scrollbar {
     width: 8px;

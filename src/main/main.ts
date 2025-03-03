@@ -31,7 +31,7 @@ const createWindow = async () => {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
     },
-    show: false,
+    show: true,
     backgroundColor: '#f0f0f0',
     icon: path.join(__dirname, '../../resources/icon.png'),
   });
@@ -70,7 +70,7 @@ app.on('ready', async () => {
     log.info('Application starting...');
 
     // Initialize services
-    await initializeDatabase();
+    // await initializeDatabase();
     setupIpcHandlers();
     registerFileSystemHandlers();
 
