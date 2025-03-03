@@ -71,4 +71,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 // Initialize any preload-specific operations
 window.addEventListener('DOMContentLoaded', () => {
     console.log('Preload script loaded successfully');
+    if (!window.location.hash) {
+        window.location.hash = '#/';
+    }
 });
