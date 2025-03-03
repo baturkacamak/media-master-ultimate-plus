@@ -1,5 +1,14 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { FileMetadata } from '../../common/types';
+import { FileMetadata } from '@common/types';
+
+interface ScanDirectoryResult {
+    files: string[];
+}
+
+interface GetMetadataResult {
+    filePath: string;
+    metadata: FileMetadata;
+}
 
 interface FilesState {
     fileList: string[];
@@ -18,12 +27,12 @@ const initialState: FilesState = {
 };
 
 // Async thunks
-export const scanDirectory = createAsyncThunk(
+export const scanDirectory = createAsyncThunk<
+    string[],
+    { dirPath: string; options: { recursive: boolean; fileTypes?: string[] } }
+>(
     'files/scanDirectory',
-    async (
-        { dirPath, options }: { dirPath: string; options: { recursive: boolean; fileTypes?: string[] } },
-        { rejectWithValue }
-    ) => {
+    async ({ dirPath, options }, { rejectWithValue }) => {
         try {
             const result = await window.electronAPI.scanDirectory(dirPath, options);
 
@@ -31,20 +40,23 @@ export const scanDirectory = createAsyncThunk(
                 return rejectWithValue(result.error || 'Failed to scan directory');
             }
 
-            return result.files;
+            return result.files || [];
         } catch (error) {
             return rejectWithValue((error as Error).message);
         }
     }
 );
 
-export const getFileMetadata = createAsyncThunk(
+export const getFileMetadata = createAsyncThunk<
+    GetMetadataResult,
+    string
+>(
     'files/getMetadata',
-    async (filePath: string, { rejectWithValue }) => {
+    async (filePath, { rejectWithValue }) => {
         try {
             const result = await window.electronAPI.getFileMetadata(filePath);
 
-            if (!result.success) {
+            if (!result.success || !result.metadata) {
                 return rejectWithValue(result.error || 'Failed to get file metadata');
             }
 
@@ -92,7 +104,9 @@ const filesSlice = createSlice({
 
             // getFileMetadata
             .addCase(getFileMetadata.fulfilled, (state, action) => {
-                state.metadata[action.payload.filePath] = action.payload.metadata;
+                if (action.payload && action.payload.metadata) {
+                    state.metadata[action.payload.filePath] = action.payload.metadata;
+                }
             });
     },
 });

@@ -28,6 +28,16 @@ interface AdvancedSettings {
     parallelJobs: number;
 }
 
+interface ProfileConfig {
+    advancedSettings?: AdvancedSettings;
+    [key: string]: any;
+}
+
+interface LoadProfileResult {
+    profileName: string;
+    config: ProfileConfig;
+}
+
 interface SettingsState {
     profiles: string[];
     currentProfile: string;
@@ -71,7 +81,7 @@ const initialState: SettingsState = {
 };
 
 // Async thunks
-export const loadProfiles = createAsyncThunk(
+export const loadProfiles = createAsyncThunk<string[]>(
     'settings/loadProfiles',
     async (_, { rejectWithValue }) => {
         try {
@@ -81,16 +91,16 @@ export const loadProfiles = createAsyncThunk(
                 return rejectWithValue(result.error || 'Failed to list configuration profiles');
             }
 
-            return result.profiles;
+            return result.profiles || [];
         } catch (error) {
             return rejectWithValue((error as Error).message);
         }
     }
 );
 
-export const loadProfile = createAsyncThunk(
+export const loadProfile = createAsyncThunk<LoadProfileResult, string>(
     'settings/loadProfile',
-    async (profileName: string, { rejectWithValue }) => {
+    async (profileName, { rejectWithValue }) => {
         try {
             const result = await window.electronAPI.loadConfig(profileName);
 
@@ -100,7 +110,7 @@ export const loadProfile = createAsyncThunk(
 
             return {
                 profileName,
-                config: result.config,
+                config: result.config || {},
             };
         } catch (error) {
             return rejectWithValue((error as Error).message);
@@ -108,12 +118,12 @@ export const loadProfile = createAsyncThunk(
     }
 );
 
-export const saveProfile = createAsyncThunk(
+export const saveProfile = createAsyncThunk<
+    string,
+    { profileName: string; config: Record<string, any> }
+>(
     'settings/saveProfile',
-    async (
-        { profileName, config }: { profileName: string; config: Record<string, any> },
-        { rejectWithValue }
-    ) => {
+    async ({ profileName, config }, { rejectWithValue }) => {
         try {
             const result = await window.electronAPI.saveConfig(profileName, config);
 
@@ -168,7 +178,7 @@ const settingsSlice = createSlice({
                 state.currentProfile = action.payload.profileName;
 
                 // Update advanced settings from loaded config
-                if (action.payload.config.advancedSettings) {
+                if (action.payload.config && action.payload.config.advancedSettings) {
                     state.advancedSettings = {
                         ...state.advancedSettings,
                         ...action.payload.config.advancedSettings,

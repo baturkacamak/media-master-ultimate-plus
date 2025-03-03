@@ -77,7 +77,7 @@ const OrganizeScreen: React.FC = () => {
     const handleSelectSource = async () => {
         try {
             const path = await window.electronAPI.selectDirectory({
-                title: t('organize.source'),
+                title: t('organize.source') as string,
             });
 
             if (path) {
@@ -167,7 +167,7 @@ const OrganizeScreen: React.FC = () => {
         });
 
         // Start organizing files
-        dispatch(organizeFiles());
+        dispatch(organizeFiles() as any);
     };
 
     // Cancel organizing operation
@@ -321,9 +321,12 @@ const OrganizeScreen: React.FC = () => {
                     <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                         <div>{t('organize.patternExplanation')}</div>
                         <ul className="list-disc pl-5 mt-1">
-                            {t('organize.patternExplanationItems', { returnObjects: true }).map((item: string, index: number) => (
-                                <li key={index}>{item}</li>
-                            ))}
+                            {(() => {
+                                const items = t('organize.patternExplanationItems', { returnObjects: true }) as string[];
+                                return items.map((item: string, index: number) => (
+                                    <li key={index}>{item}</li>
+                                ));
+                            })()}
                         </ul>
                     </div>
                 </div>

@@ -5,6 +5,15 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en';
 import tr from './locales/tr';
 
+declare module 'i18next' {
+    interface CustomTypeOptions {
+        returnNull: false;
+        resources: {
+            translation: typeof en;
+        };
+    }
+}
+
 const resources = {
     en: {
         translation: en
@@ -26,7 +35,8 @@ i18n
         fallbackLng: 'en',
         interpolation: {
             escapeValue: false // React already safes from XSS
-        }
+        },
+        returnNull: false // This ensures t() always returns string instead of null
     });
 
 export default i18n;

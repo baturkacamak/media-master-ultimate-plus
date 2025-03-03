@@ -93,16 +93,14 @@ export function registerFileSystemHandlers() {
             // Create required directories
             await fs.mkdir(options.destinationPath, { recursive: true });
 
+            // FIX: Directly scan the directory instead of using ipcMain.handle
             // Get file list
-            const { success, files, error } = await ipcMain.handle(
-                'files:scanDirectory',
-                _event,
-                options.sourcePath,
-                { recursive: options.recursive, fileTypes: options.filters?.fileTypes }
-            ) as { success: boolean; files?: string[]; error?: string };
-
-            if (!success || !files) {
-                return { success: false, error: error || 'Failed to scan directory' };
+            let files: string[] = [];
+            try {
+                const { recursive = false, fileTypes = options.filters?.fileTypes } = options;
+                files = await scanDirectoryForFiles(options.sourcePath, fileTypes || supportedFormats, recursive);
+            } catch (error) {
+                return { success: false, error: `Failed to scan directory: ${(error as Error).message}` };
             }
 
             // Process files
@@ -165,6 +163,17 @@ export function registerFileSystemHandlers() {
             };
         }
     });
+}
+
+// Separate function to scan directory for files (fixed)
+async function scanDirectoryForFiles(
+    dirPath: string,
+    fileTypes: string[] = supportedFormats,
+    recursive: boolean = false
+): Promise<string[]> {
+    const results: string[] = [];
+    await scanDirectoryRecursive(dirPath, fileTypes, recursive, results);
+    return results;
 }
 
 // Helper function to scan directory recursively

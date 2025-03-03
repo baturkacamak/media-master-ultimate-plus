@@ -1,12 +1,14 @@
+// src/main/database.ts - Fixed SQLite import and database connection
+
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import * as sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite3';
 import { promisify } from 'util';
 import { app } from 'electron';
 import log from 'electron-log';
 
-// Global database connection
+// Define proper Database type
+type Database = sqlite3.Database;
 let db: Database | null = null;
 
 /**
@@ -21,9 +23,14 @@ export async function initializeDatabase(): Promise<void> {
         // Ensure database directory exists
         await fs.mkdir(dbDir, { recursive: true });
 
-        // Open database connection
-        const openDatabase = promisify<string, sqlite3.Database>(open);
-        db = await openDatabase(dbPath);
+        // Open database connection properly
+        db = new sqlite3.Database(dbPath, (err) => {
+            if (err) {
+                log.error('Error opening database:', err);
+                throw err;
+            }
+            log.info('Connected to SQLite database');
+        });
 
         // Enable foreign keys
         await runAsync('PRAGMA foreign_keys = ON');
@@ -92,56 +99,56 @@ export async function allAsync<T>(sql: string, params: any[] = []): Promise<T[]>
 async function createTables(): Promise<void> {
     // Tasks table
     await runAsync(`
-    CREATE TABLE IF NOT EXISTS tasks (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      status TEXT NOT NULL DEFAULT 'pending',
-      source_path TEXT NOT NULL,
-      destination_path TEXT NOT NULL,
-      operation TEXT NOT NULL,
-      pattern TEXT NOT NULL,
-      options TEXT NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      started_at TIMESTAMP,
-      completed_at TIMESTAMP,
-      total_files INTEGER DEFAULT 0,
-      processed_files INTEGER DEFAULT 0,
-      succeeded_files INTEGER DEFAULT 0,
-      skipped_files INTEGER DEFAULT 0,
-      error_files INTEGER DEFAULT 0
-    )
-  `);
+        CREATE TABLE IF NOT EXISTS tasks (
+                                             id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                             name TEXT NOT NULL,
+                                             status TEXT NOT NULL DEFAULT 'pending',
+                                             source_path TEXT NOT NULL,
+                                             destination_path TEXT NOT NULL,
+                                             operation TEXT NOT NULL,
+                                             pattern TEXT NOT NULL,
+                                             options TEXT NOT NULL,
+                                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                             started_at TIMESTAMP,
+                                             completed_at TIMESTAMP,
+                                             total_files INTEGER DEFAULT 0,
+                                             processed_files INTEGER DEFAULT 0,
+                                             succeeded_files INTEGER DEFAULT 0,
+                                             skipped_files INTEGER DEFAULT 0,
+                                             error_files INTEGER DEFAULT 0
+        )
+    `);
 
     // Files table
     await runAsync(`
-    CREATE TABLE IF NOT EXISTS files (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      task_id INTEGER NOT NULL,
-      source_path TEXT NOT NULL,
-      destination_path TEXT,
-      file_name TEXT NOT NULL,
-      extension TEXT NOT NULL,
-      size INTEGER NOT NULL,
-      created_at TIMESTAMP,
-      modified_at TIMESTAMP,
-      exif_data TEXT,
-      status TEXT NOT NULL DEFAULT 'pending',
-      error_message TEXT,
-      FOREIGN KEY (task_id) REFERENCES tasks(id)
-    )
-  `);
+        CREATE TABLE IF NOT EXISTS files (
+                                             id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                             task_id INTEGER NOT NULL,
+                                             source_path TEXT NOT NULL,
+                                             destination_path TEXT,
+                                             file_name TEXT NOT NULL,
+                                             extension TEXT NOT NULL,
+                                             size INTEGER NOT NULL,
+                                             created_at TIMESTAMP,
+                                             modified_at TIMESTAMP,
+                                             exif_data TEXT,
+                                             status TEXT NOT NULL DEFAULT 'pending',
+                                             error_message TEXT,
+                                             FOREIGN KEY (task_id) REFERENCES tasks(id)
+        )
+    `);
 
     // Settings table
     await runAsync(`
-    CREATE TABLE IF NOT EXISTS settings (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      profile_name TEXT NOT NULL UNIQUE,
-      settings TEXT NOT NULL,
-      is_default BOOLEAN DEFAULT 0,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+        CREATE TABLE IF NOT EXISTS settings (
+                                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                                profile_name TEXT NOT NULL UNIQUE,
+                                                settings TEXT NOT NULL,
+                                                is_default BOOLEAN DEFAULT 0,
+                                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
 }
 
 /**

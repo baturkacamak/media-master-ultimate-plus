@@ -15,7 +15,7 @@ export const store = configureStore({
         getDefaultMiddleware({
             serializableCheck: {
                 // Ignore non-serializable values for specific action types
-                ignoredActions: ['files/setMetadata'],
+                ignoredActions: ['files/setMetadata', 'settings/saveProfile', 'settings/loadProfile', 'organize/organizeFiles'],
                 // Ignore non-serializable paths
                 ignoredPaths: ['files.metadata'],
             },
@@ -30,3 +30,11 @@ export type AppDispatch = typeof store.dispatch;
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+// Define proper action type for useDispatch
+// This allows proper typing of thunks when using dispatch
+declare module 'react-redux' {
+    interface DefaultRootState extends RootState {}
+
+    export function useDispatch<TDispatch = AppDispatch>(): TDispatch;
+}

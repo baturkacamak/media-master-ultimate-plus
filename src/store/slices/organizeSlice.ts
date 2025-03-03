@@ -1,5 +1,13 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../index';
+import { RootState } from '@/store';
+
+// Define the result type for more type safety
+interface OrganizeResult {
+    total: number;
+    succeeded: number;
+    skipped: number;
+    errors: number;
+}
 
 interface OrganizeState {
     sourcePath: string;
@@ -66,7 +74,7 @@ const initialState: OrganizeState = {
 };
 
 // Async thunks
-export const organizeFiles = createAsyncThunk(
+export const organizeFiles = createAsyncThunk<OrganizeResult, void, { state: RootState }>(
     'organize/organizeFiles',
     async (_, { getState, rejectWithValue }) => {
         try {
@@ -89,7 +97,12 @@ export const organizeFiles = createAsyncThunk(
                 return rejectWithValue(result.error || 'Failed to organize files');
             }
 
-            return result.results;
+            return result.results || {
+                total: 0,
+                succeeded: 0,
+                skipped: 0,
+                errors: 0
+            };
         } catch (error) {
             return rejectWithValue((error as Error).message);
         }
@@ -147,13 +160,14 @@ const organizeSlice = createSlice({
                 };
             })
             .addCase(organizeFiles.fulfilled, (state, action) => {
+                const result = action.payload;
                 state.progress = {
                     ...state.progress,
                     isRunning: false,
-                    total: action.payload.total,
-                    succeeded: action.payload.succeeded,
-                    skipped: action.payload.skipped,
-                    errors: action.payload.errors,
+                    total: result.total,
+                    succeeded: result.succeeded,
+                    skipped: result.skipped,
+                    errors: result.errors,
                     percentage: 100,
                 };
             })
