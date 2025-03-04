@@ -4,6 +4,7 @@ export default {
         "home": "Home",
         "organize": "Organize",
         "convert": "Convert",
+        "categorize": "Categorize",
         "settings": "Settings",
         "about": "About"
     },
@@ -90,7 +91,7 @@ export default {
         "noDestinationSelected": "Please select a destination directory"
     },
 
-    // Settings Screen
+// Settings Screen
     "settings": {
         "title": "Settings",
         "profiles": "Configuration Profiles",
@@ -104,22 +105,38 @@ export default {
         "darkMode": "Dark Mode",
         "advanced": "Advanced Features",
         "geoTagging": "Enable Geo Tagging",
-        "aiCategorization": "Enable AI Categorization",
+        "aiCategorization": "AI Categorization",
+        "enableAiCategorization": "Enable AI Categorization",
+        "aiModelType": "AI Model Type",
+        "useLocalModel": "Use Local Model",
+        "useCloudApi": "Use Cloud API",
         "aiApiKey": "AI API Key",
+        "aiApiKeyPlaceholder": "Enter your API key here",
+        "aiApiKeyHelp": "API key is required for cloud-based image analysis",
+        "confidenceThreshold": "Confidence Threshold",
+        "confidenceThresholdHelp": "Only show tags with confidence above this threshold",
+        "maxTags": "Maximum Tags",
+        "aiAdditionalOptions": "Additional Options",
+        "includeDominantColors": "Include Dominant Colors",
+        "includeObjectDetection": "Include Object Detection",
+        "customCategories": "Custom Categories",
+        "newCategoryPlaceholder": "Enter new category name",
+        "yourCustomCategories": "Your Custom Categories",
+        "availableCategories": "Available Categories",
         "cloudUpload": "Enable Cloud Upload",
         "cloudService": "Cloud Service",
         "scheduling": "Enable Scheduling",
         "scheduleTime": "Schedule Time",
         "exifEdit": "Enable EXIF Editing",
         "exifCommands": "EXIF Edit Commands",
-        "formatConversion": "Enable Format Conversion",
+        "formatConversion": "Format Conversion",
+        "enableFormatConversion": "Enable Format Conversion",
         "convertFrom": "Convert From Format",
         "convertTo": "Convert To Format",
-        "enableFormatConversion": "Enable Format Conversion",
+        "quality": "Conversion Quality",
         "deleteOriginal": "Delete Original Files",
         "resizeOptions": "Resize Options",
         "maintainAspectRatio": "Maintain Aspect Ratio",
-        "quality": "Conversion Quality",
         "faceRecognition": "Enable Face Recognition",
         "videoProcessing": "Enable Video Processing",
         "webInterface": "Enable Web Interface",
@@ -140,6 +157,31 @@ export default {
             "en": "English",
             "tr": "Turkish"
         }
+    },
+
+    // AI Categorization Screen
+    "categorization": {
+        "title": "AI Image Categorization",
+        "selectFiles": "Select Files",
+        "selectImages": "Select Images",
+        "selectedFiles": "Selected Files",
+        "options": "Categorization Options",
+        "confidenceThreshold": "Confidence Threshold",
+        "startCategorization": "Start Categorization",
+        "processing": "Processing...",
+        "results": "Categorization Results",
+        "export": "Export Results",
+        "search": "Search",
+        "searchPlaceholder": "Search by tag or category",
+        "filterByCategory": "Filter by Category",
+        "allCategories": "All Categories",
+        "primaryCategory": "Primary Category",
+        "tags": "Tags",
+        "dominantColors": "Dominant Colors",
+        "objects": "Detected Objects",
+        "noTagsAboveThreshold": "No tags above threshold",
+        "noResultsFound": "No results match your filters",
+        "boundingBox": "Bounding Box"
     },
 
     // About Screen
@@ -207,6 +249,7 @@ export default {
         "confirmation": "Confirmation",
         "areYouSure": "Are you sure?",
         "noData": "No data available",
-        "processing": "Processing..."
+        "processing": "Processing...",
+        "reset": "Reset"
     }
 };

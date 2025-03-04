@@ -77,6 +77,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
             'conversion:progress',
             'conversion:complete',
             'conversion:error',
+            'ai:progress',
+            'ai:complete',
+            'ai:error',
         ];
 
         if (validChannels.includes(channel)) {

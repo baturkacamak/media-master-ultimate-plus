@@ -7,6 +7,7 @@ import { setupIpcHandlers } from './ipc-handlers';
 import { registerFileSystemHandlers } from './filesystem-handlers';
 import { initializeDatabase } from './database';
 import { cleanupFormatConversion, registerFormatConversionHandlers } from '@main/format-conversion-handlers';
+import { cleanupAiCategorization, registerAiCategorizationHandlers } from '@main/ai-categorization-handlers';
 
 // Configure logger
 log.transports.file.level = 'info';
@@ -75,6 +76,7 @@ app.on('ready', async () => {
     setupIpcHandlers();
     registerFileSystemHandlers();
     registerFormatConversionHandlers();
+    registerAiCategorizationHandlers();
 
     // Create main application window
     await createWindow();
@@ -115,6 +117,9 @@ process.on('uncaughtException', (error) => {
 app.on('will-quit', () => {
   // Clean up format conversion temporary files
   cleanupFormatConversion();
+
+  // Clean up AI categorization resources
+  cleanupAiCategorization();
 });
 
 // Handle any uncaught exceptions

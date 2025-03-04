@@ -4,6 +4,12 @@ interface AdvancedSettings {
     enableGeoTagging: boolean;
     enableAiCategorization: boolean;
     aiApiKey: string;
+    aiUseLocalModel: boolean;
+    aiConfidenceThreshold: number;
+    aiMaxTags: number;
+    aiIncludeDominantColors: boolean;
+    aiIncludeObjectDetection: boolean;
+    aiCustomCategories: string[];
     enableCloudUpload: boolean;
     cloudService: string;
     enableScheduling: boolean;

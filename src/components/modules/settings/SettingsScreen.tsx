@@ -32,6 +32,7 @@ import {
     BiFace,
 } from 'react-icons/bi';
 import FormatConversionSettings from '@components/modules/settings/FormatConversionSettings';
+import AiCategorizationSettings from '@components/modules/settings/AiCategorizationSettings';
 
 const SettingsScreen: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -275,6 +276,9 @@ const SettingsScreen: React.FC = () => {
           {activeTab === 'advanced' && (
             <Card>
                 <h2 className="text-xl font-semibold mb-4">{t('settings.advanced')}</h2>
+                {/* AI Categorization Settings */}
+                <AiCategorizationSettings />
+
                 {/* Format Conversion Settings */}
                 <FormatConversionSettings />
             </Card>

@@ -128,6 +128,65 @@ export interface AvailableFormats {
     video: string[];
 }
 
+
+/**
+ * AI categorization tag
+ */
+export interface CategoryTag {
+    name: string;
+    confidence: number;
+    category: string;
+}
+
+/**
+ * AI categorization result for a single file
+ */
+export interface CategorizationResult {
+    filePath: string;
+    tags: CategoryTag[];
+    primaryCategory?: string;
+    dominantColors?: string[];
+    objects?: Array<{
+        name: string;
+        confidence: number;
+        boundingBox?: { x: number; y: number; width: number; height: number };
+    }>;
+    error?: string;
+}
+
+/**
+ * AI categorization settings
+ */
+export interface AiCategorizationSettings {
+    enabled: boolean;
+    useLocalModel: boolean;
+    apiKey: string;
+    confidenceThreshold: number;
+    maxTags: number;
+    includeDominantColors: boolean;
+    includeObjectDetection: boolean;
+    customCategories: string[];
+}
+
+/**
+ * AI categorization progress
+ */
+export interface CategorizationProgress {
+    processed: number;
+    total: number;
+    percentage: number;
+    currentFile: string;
+}
+
+/**
+ * AI categorization batch result
+ */
+export interface BatchCategorizationResult {
+    success: boolean;
+    results: CategorizationResult[];
+    error?: string;
+}
+
 /**
  * Electron API interface
  */
@@ -184,6 +243,44 @@ export interface ElectronAPI {
     }) => Promise<BatchFormatConversionResult>;
 
     getAvailableFormats: () => Promise<{ success: boolean; formats?: AvailableFormats; error?: string }>;
+
+    // AI Categorization operations
+    configureAi: (options: Partial<{
+        useLocalModel: boolean;
+        apiKey: string;
+        confidenceThreshold: number;
+        maxTags: number;
+        includeDominantColors: boolean;
+        includeObjectDetection: boolean;
+    }>) => Promise<{ success: boolean; error?: string }>;
+
+    categorizeImage: (imagePath: string) => Promise<{
+        success: boolean;
+        result?: CategorizationResult;
+        error?: string
+    }>;
+
+    categorizeImages: (imagePaths: string[]) => Promise<{
+        success: boolean;
+        results?: CategorizationResult[];
+        error?: string
+    }>;
+
+    getCategories: () => Promise<{
+        success: boolean;
+        categories?: string[];
+        error?: string
+    }>;
+
+    addCustomCategories: (categories: string[]) => Promise<{
+        success: boolean;
+        error?: string
+    }>;
+
+    removeCustomCategories: (categories: string[]) => Promise<{
+        success: boolean;
+        error?: string
+    }>;
 
     // Configuration
     saveConfig: (profileName: string, config: Record<string, any>) => Promise<{ success: boolean; error?: string }>;

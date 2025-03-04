@@ -6,7 +6,18 @@ import { RootState } from '../../store';
 import { toggleDarkMode } from '../../store/slices/appSlice';
 
 // Import icons
-import { BiCog, BiFolder, BiHome, BiImageAlt, BiInfoCircle, BiMenu, BiMoon, BiSun, BiX } from 'react-icons/bi';
+import {
+  BiCategory,
+  BiCog,
+  BiFolder,
+  BiHome,
+  BiImageAlt,
+  BiInfoCircle,
+  BiMenu,
+  BiMoon,
+  BiSun,
+  BiX,
+} from 'react-icons/bi';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -28,6 +39,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, appVersion }) => {
     { path: '/', label: t('nav.home'), icon: <BiHome size={24} /> },
     { path: '/organize', label: t('nav.organize'), icon: <BiImageAlt size={24} /> },
     { path: '/convert', label: t('nav.convert'), icon: <BiFolder size={24} /> },
+    { path: '/categorize', label: t('nav.categorize'), icon: <BiCategory size={24} /> },
     { path: '/settings', label: t('nav.settings'), icon: <BiCog size={24} /> },
     { path: '/about', label: t('nav.about'), icon: <BiInfoCircle size={24} /> },
   ];
