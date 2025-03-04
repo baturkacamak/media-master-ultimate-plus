@@ -2,7 +2,7 @@
 module.exports = {
     content: [
         './src/**/*.{js,jsx,ts,tsx}',
-        './src/renderer/index.html'
+        './src/renderer/index.html',
     ],
     darkMode: 'class',
     theme: {
