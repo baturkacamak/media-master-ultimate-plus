@@ -8,6 +8,7 @@ import { registerFileSystemHandlers } from './filesystem-handlers';
 import { initializeDatabase } from './database';
 import { cleanupFormatConversion, registerFormatConversionHandlers } from '@main/format-conversion-handlers';
 import { cleanupAiCategorization, registerAiCategorizationHandlers } from '@main/ai-categorization-handlers';
+import { cleanupFaceRecognition, registerFaceRecognitionHandlers } from '@main/face-recognition-handlers';
 
 // Configure logger
 log.transports.file.level = 'info';
@@ -77,6 +78,7 @@ app.on('ready', async () => {
     registerFileSystemHandlers();
     registerFormatConversionHandlers();
     registerAiCategorizationHandlers();
+    registerFaceRecognitionHandlers();
 
     // Create main application window
     await createWindow();
@@ -120,6 +122,9 @@ app.on('will-quit', () => {
 
   // Clean up AI categorization resources
   cleanupAiCategorization();
+
+  // Clean up face recognition resources
+  cleanupFaceRecognition();
 });
 
 // Handle any uncaught exceptions

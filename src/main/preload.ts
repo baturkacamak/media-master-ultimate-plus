@@ -57,6 +57,83 @@ contextBridge.exposeInMainWorld('electronAPI', {
         maintainAspectRatio?: boolean;
     }) => ipcRenderer.invoke('conversion:convertFiles', filePaths, options),
 
+    // AI Categorization operations
+    configureAi: (options: Partial<{
+        useLocalModel: boolean;
+        apiKey: string;
+        confidenceThreshold: number;
+        maxTags: number;
+        includeDominantColors: boolean;
+        includeObjectDetection: boolean;
+    }>) => ipcRenderer.invoke('ai:configure', options),
+
+    categorizeImage: (imagePath: string) =>
+      ipcRenderer.invoke('ai:categorizeImage', imagePath),
+
+    categorizeImages: (imagePaths: string[]) =>
+      ipcRenderer.invoke('ai:categorizeImages', imagePaths),
+
+    getCategories: () =>
+      ipcRenderer.invoke('ai:getCategories'),
+
+    addCustomCategories: (categories: string[]) =>
+      ipcRenderer.invoke('ai:addCustomCategories', categories),
+
+    removeCustomCategories: (categories: string[]) =>
+      ipcRenderer.invoke('ai:removeCustomCategories', categories),
+
+    // Face Recognition operations
+    configureFaceRecognition: (options: Partial<{
+        minFaceSize: number;
+        maxFaceSize: number;
+        confidenceThreshold: number;
+        recognitionThreshold: number;
+        enableLandmarks: boolean;
+        enableAttributes: boolean;
+        maxFacesPerImage: number;
+        useLocalModel: boolean;
+        apiKey: string;
+    }>) => ipcRenderer.invoke('face:configure', options),
+
+    detectFaces: (imagePath: string) =>
+      ipcRenderer.invoke('face:detectFaces', imagePath),
+
+    processFaceBatch: (imagePaths: string[]) =>
+      ipcRenderer.invoke('face:processBatch', imagePaths),
+
+    getAllPeople: () =>
+      ipcRenderer.invoke('face:getAllPeople'),
+
+    getPersonById: (personId: string) =>
+      ipcRenderer.invoke('face:getPersonById', personId),
+
+    createOrUpdatePerson: (person: Partial<{
+        id: string;
+        name: string;
+        faceIds: string[];
+        faceDescriptors: number[][];
+        sampleImages: string[];
+        thumbnailPath?: string;
+        dateCreated: string;
+        dateModified: string;
+        imageCount: number;
+    }> & { name: string }) =>
+      ipcRenderer.invoke('face:createOrUpdatePerson', person),
+
+    deletePerson: (personId: string) =>
+      ipcRenderer.invoke('face:deletePerson', personId),
+
+    addFaceToPerson: (personId: string, faceImage: string, faceRect: {
+        x: number;
+        y: number;
+        width: number;
+        height: number
+    }) =>
+      ipcRenderer.invoke('face:addFaceToPerson', personId, faceImage, faceRect),
+
+    removeFaceFromPerson: (personId: string, faceId: string) =>
+      ipcRenderer.invoke('face:removeFaceFromPerson', personId, faceId),
+
     getAvailableFormats: () => ipcRenderer.invoke('conversion:getAvailableFormats'),
 
     // Configuration
@@ -80,6 +157,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
             'ai:progress',
             'ai:complete',
             'ai:error',
+            'face:progress',
+            'face:complete',
+            'face:error',
         ];
 
         if (validChannels.includes(channel)) {

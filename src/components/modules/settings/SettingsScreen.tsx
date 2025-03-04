@@ -279,6 +279,9 @@ const SettingsScreen: React.FC = () => {
                 {/* AI Categorization Settings */}
                 <AiCategorizationSettings />
 
+                {/* Face Recognition Settings */}
+                <FaceRecognitionSettings />
+
                 {/* Format Conversion Settings */}
                 <FormatConversionSettings />
             </Card>

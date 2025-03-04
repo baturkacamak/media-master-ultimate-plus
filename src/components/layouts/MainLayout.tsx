@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { toggleDarkMode } from '../../store/slices/appSlice';
+import { RootState } from '@/store';
+import { toggleDarkMode } from '@store/slices/appSlice';
 
 // Import icons
 import {
@@ -15,7 +15,7 @@ import {
   BiInfoCircle,
   BiMenu,
   BiMoon,
-  BiSun,
+  BiSun, BiUserVoice,
   BiX,
 } from 'react-icons/bi';
 
@@ -40,6 +40,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, appVersion }) => {
     { path: '/organize', label: t('nav.organize'), icon: <BiImageAlt size={24} /> },
     { path: '/convert', label: t('nav.convert'), icon: <BiFolder size={24} /> },
     { path: '/categorize', label: t('nav.categorize'), icon: <BiCategory size={24} /> },
+    { path: '/facerecognition', label: t('nav.faceRecognition'), icon: <BiUserVoice size={24} /> },
     { path: '/settings', label: t('nav.settings'), icon: <BiCog size={24} /> },
     { path: '/about', label: t('nav.about'), icon: <BiInfoCircle size={24} /> },
   ];

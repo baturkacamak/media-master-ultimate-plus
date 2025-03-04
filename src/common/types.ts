@@ -188,6 +188,105 @@ export interface BatchCategorizationResult {
 }
 
 /**
+ * Face detection structure
+ */
+export interface FaceDetection {
+    id: string;                // Unique ID for this face instance
+    boundingBox: {            // Coordinates of face in the image
+        x: number;              // Left coordinate
+        y: number;              // Top coordinate
+        width: number;          // Width of face
+        height: number;         // Height of face
+    };
+    confidence: number;       // Detection confidence (0-1)
+    landmarks?: {             // Optional facial landmarks
+        leftEye?: [number, number];
+        rightEye?: [number, number];
+        nose?: [number, number];
+        mouth?: [number, number];
+        leftEar?: [number, number];
+        rightEar?: [number, number];
+    };
+    attributes?: {            // Optional face attributes
+        age?: number;           // Estimated age
+        gender?: string;        // Estimated gender
+        emotion?: string;       // Dominant emotion
+        glasses?: boolean;      // Wearing glasses
+        smile?: boolean;        // Smiling
+        pose?: {                // Head pose
+            roll?: number;        // Roll angle
+            yaw?: number;         // Yaw angle
+            pitch?: number;       // Pitch angle
+        };
+    };
+    personId?: string;        // ID of the recognized person (if matched)
+    personName?: string;      // Name of the recognized person (if matched)
+    matchConfidence?: number; // Confidence of person match (0-1)
+}
+
+/**
+ * Face recognition result for a single image
+ */
+export interface FaceRecognitionResult {
+    filePath: string;         // Path to the image file
+    fileHash: string;         // Hash of the image file for tracking
+    imageWidth: number;       // Width of the image
+    imageHeight: number;      // Height of the image
+    faces: FaceDetection[];   // Detected faces
+    error?: string;           // Error message if processing failed
+}
+
+/**
+ * Person data structure
+ */
+export interface Person {
+    id: string;               // Unique ID for this person
+    name: string;             // Person's name
+    faceIds: string[];        // IDs of face samples for this person
+    faceDescriptors: number[][]; // Face embedding vectors
+    sampleImages: string[];   // Paths to sample images
+    thumbnailPath?: string;   // Path to thumbnail image
+    dateCreated: string;      // Date this person was created
+    dateModified: string;     // Date this person was last modified
+    imageCount: number;       // Number of images containing this person
+}
+
+/**
+ * Face recognition settings
+ */
+export interface FaceRecognitionSettings {
+    enabled: boolean;
+    minFaceSize: number;
+    maxFaceSize: number;
+    confidenceThreshold: number;
+    recognitionThreshold: number;
+    enableLandmarks: boolean;
+    enableAttributes: boolean;
+    maxFacesPerImage: number;
+    useLocalModel: boolean;
+    apiKey: string;
+}
+
+/**
+ * Face recognition progress
+ */
+export interface FaceRecognitionProgress {
+    processed: number;
+    total: number;
+    percentage: number;
+    currentFile: string;
+}
+
+/**
+ * Face recognition batch result
+ */
+export interface BatchFaceRecognitionResult {
+    success: boolean;
+    results: FaceRecognitionResult[];
+    error?: string;
+}
+
+/**
  * Electron API interface
  */
 export interface ElectronAPI {
@@ -245,6 +344,7 @@ export interface ElectronAPI {
     getAvailableFormats: () => Promise<{ success: boolean; formats?: AvailableFormats; error?: string }>;
 
     // AI Categorization operations
+    // AI Categorization operations
     configureAi: (options: Partial<{
         useLocalModel: boolean;
         apiKey: string;
@@ -279,6 +379,71 @@ export interface ElectronAPI {
 
     removeCustomCategories: (categories: string[]) => Promise<{
         success: boolean;
+        error?: string
+    }>;
+
+    // Face Recognition operations
+    configureFaceRecognition: (options: Partial<{
+        minFaceSize: number;
+        maxFaceSize: number;
+        confidenceThreshold: number;
+        recognitionThreshold: number;
+        enableLandmarks: boolean;
+        enableAttributes: boolean;
+        maxFacesPerImage: number;
+        useLocalModel: boolean;
+        apiKey: string;
+    }>) => Promise<{ success: boolean; error?: string }>;
+
+    detectFaces: (imagePath: string) => Promise<{
+        success: boolean;
+        result?: FaceRecognitionResult;
+        error?: string
+    }>;
+
+    processFaceBatch: (imagePaths: string[]) => Promise<{
+        success: boolean;
+        results?: FaceRecognitionResult[];
+        error?: string
+    }>;
+
+    getAllPeople: () => Promise<{
+        success: boolean;
+        people?: Person[];
+        error?: string
+    }>;
+
+    getPersonById: (personId: string) => Promise<{
+        success: boolean;
+        person?: Person;
+        error?: string
+    }>;
+
+    createOrUpdatePerson: (person: Partial<Person> & { name: string }) => Promise<{
+        success: boolean;
+        person?: Person;
+        error?: string
+    }>;
+
+    deletePerson: (personId: string) => Promise<{
+        success: boolean;
+        error?: string
+    }>;
+
+    addFaceToPerson: (personId: string, faceImage: string, faceRect: {
+        x: number;
+        y: number;
+        width: number;
+        height: number
+    }) => Promise<{
+        success: boolean;
+        person?: Person;
+        error?: string
+    }>;
+
+    removeFaceFromPerson: (personId: string, faceId: string) => Promise<{
+        success: boolean;
+        person?: Person;
         error?: string
     }>;
 

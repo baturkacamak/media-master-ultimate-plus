@@ -5,6 +5,7 @@ export default {
         "organize": "Organize",
         "convert": "Convert",
         "categorize": "Categorize",
+        "faceRecognition": "Face Recognition",
         "settings": "Settings",
         "about": "About"
     },
@@ -91,7 +92,7 @@ export default {
         "noDestinationSelected": "Please select a destination directory"
     },
 
-// Settings Screen
+    // Settings Screen
     "settings": {
         "title": "Settings",
         "profiles": "Configuration Profiles",
@@ -182,6 +183,60 @@ export default {
         "noTagsAboveThreshold": "No tags above threshold",
         "noResultsFound": "No results match your filters",
         "boundingBox": "Bounding Box"
+    },
+
+    // Add new face recognition translations
+    "faceRecognition": {
+        "title": "Face Recognition",
+        "selectImages": "Select Images",
+        "startRecognition": "Start Recognition",
+        "processing": "Processing Images",
+        "recognitionResults": "Recognition Results",
+        "noFacesDetected": "No faces detected in this image",
+        "assignToPerson": "Assign to Person",
+        "createNewPerson": "Create New Person",
+        "peopleMgmt": "People Management",
+        "searchPeople": "Search people...",
+        "createPerson": "Create Person",
+        "editPerson": "Edit Person",
+        "deletePerson": "Delete Person",
+        "faceSamples": "Face Samples",
+        "noFaceSamples": "No face samples added yet",
+        "removeFace": "Remove Face",
+        "exportResults": "Export Results",
+        "addFaceHint": "To add face samples, use the Face Recognition tab to detect faces and assign them to this person.",
+        "selectPerson": "Select a person to view details",
+        "confirmDelete": "Are you sure you want to delete this person?",
+        "faceDetails": "Face Details",
+        "confidence": "Confidence",
+        "recognizedAs": "Recognized as",
+        "matchConfidence": "Match confidence",
+        "position": "Position",
+        "attributes": {
+            "age": "Age",
+            "gender": "Gender",
+            "emotion": "Emotion",
+            "glasses": "Glasses",
+            "smile": "Smile"
+        },
+        "settings": {
+            "title": "Face Recognition Settings",
+            "enable": "Enable Face Recognition",
+            "modelType": "Model Type",
+            "useLocalModel": "Use Local Model",
+            "useCloudApi": "Use Cloud API",
+            "apiKey": "API Key",
+            "apiKeyPlaceholder": "Enter your API key here",
+            "apiKeyHelp": "API key is required for cloud-based face recognition",
+            "detectionSettings": "Face Detection Settings",
+            "minFaceSize": "Minimum Face Size (pixels)",
+            "maxFaceSize": "Maximum Face Size (pixels, 0 = no limit)",
+            "confidenceThreshold": "Detection Confidence Threshold",
+            "recognitionThreshold": "Recognition Confidence Threshold",
+            "maxFacesPerImage": "Maximum Faces Per Image",
+            "enableLandmarks": "Detect Facial Landmarks (eyes, nose, mouth)",
+            "enableAttributes": "Detect Face Attributes (age, gender, emotions)"
+        }
     },
 
     // About Screen
