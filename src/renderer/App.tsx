@@ -8,6 +8,7 @@ import HomeScreen from '../components/modules/home/HomeScreen';
 import OrganizeScreen from '../components/modules/organize/OrganizeScreen';
 import SettingsScreen from '../components/modules/settings/SettingsScreen';
 import AboutScreen from '../components/modules/about/AboutScreen';
+import FormatConversionScreen from '@components/modules/conversion/FormatConversionScreen';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/organize" element={<OrganizeScreen />} />
+          <Route path="/convert" element={<FormatConversionScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/about" element={<AboutScreen />} />
         </Routes>

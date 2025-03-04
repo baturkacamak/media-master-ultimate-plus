@@ -14,6 +14,10 @@ interface AdvancedSettings {
     convertFormatFrom: string;
     convertFormatTo: string;
     convertQuality: number;
+    resizeWidth: number | null;
+    resizeHeight: number | null;
+    maintainAspectRatio: boolean;
+    deleteOriginalAfterConversion: boolean;
     enableFaceRecognition: boolean;
     enableVideoProcessing: boolean;
     enableWebInterface: boolean;
@@ -60,9 +64,13 @@ const initialState: SettingsState = {
         enableExifEdit: false,
         exifEditCommands: '',
         enableFormatConversion: false,
-        convertFormatFrom: '',
-        convertFormatTo: '',
+        convertFormatFrom: 'jpg',
+        convertFormatTo: 'webp',
         convertQuality: 80,
+        resizeWidth: null,
+        resizeHeight: null,
+        maintainAspectRatio: true,
+        deleteOriginalAfterConversion: false,
         enableFaceRecognition: false,
         enableVideoProcessing: false,
         enableWebInterface: false,
@@ -82,60 +90,60 @@ const initialState: SettingsState = {
 
 // Async thunks
 export const loadProfiles = createAsyncThunk<string[]>(
-    'settings/loadProfiles',
-    async (_, { rejectWithValue }) => {
-        try {
-            const result = await window.electronAPI.listConfigs();
+  'settings/loadProfiles',
+  async (_, { rejectWithValue }) => {
+      try {
+          const result = await window.electronAPI.listConfigs();
 
-            if (!result.success) {
-                return rejectWithValue(result.error || 'Failed to list configuration profiles');
-            }
+          if (!result.success) {
+              return rejectWithValue(result.error || 'Failed to list configuration profiles');
+          }
 
-            return result.profiles || [];
-        } catch (error) {
-            return rejectWithValue((error as Error).message);
-        }
-    }
+          return result.profiles || [];
+      } catch (error) {
+          return rejectWithValue((error as Error).message);
+      }
+  }
 );
 
 export const loadProfile = createAsyncThunk<LoadProfileResult, string>(
-    'settings/loadProfile',
-    async (profileName, { rejectWithValue }) => {
-        try {
-            const result = await window.electronAPI.loadConfig(profileName);
+  'settings/loadProfile',
+  async (profileName, { rejectWithValue }) => {
+      try {
+          const result = await window.electronAPI.loadConfig(profileName);
 
-            if (!result.success) {
-                return rejectWithValue(result.error || 'Failed to load configuration profile');
-            }
+          if (!result.success) {
+              return rejectWithValue(result.error || 'Failed to load configuration profile');
+          }
 
-            return {
-                profileName,
-                config: result.config || {},
-            };
-        } catch (error) {
-            return rejectWithValue((error as Error).message);
-        }
-    }
+          return {
+              profileName,
+              config: result.config || {},
+          };
+      } catch (error) {
+          return rejectWithValue((error as Error).message);
+      }
+  }
 );
 
 export const saveProfile = createAsyncThunk<
-    string,
-    { profileName: string; config: Record<string, any> }
+  string,
+  { profileName: string; config: Record<string, any> }
 >(
-    'settings/saveProfile',
-    async ({ profileName, config }, { rejectWithValue }) => {
-        try {
-            const result = await window.electronAPI.saveConfig(profileName, config);
+  'settings/saveProfile',
+  async ({ profileName, config }, { rejectWithValue }) => {
+      try {
+          const result = await window.electronAPI.saveConfig(profileName, config);
 
-            if (!result.success) {
-                return rejectWithValue(result.error || 'Failed to save configuration profile');
-            }
+          if (!result.success) {
+              return rejectWithValue(result.error || 'Failed to save configuration profile');
+          }
 
-            return profileName;
-        } catch (error) {
-            return rejectWithValue((error as Error).message);
-        }
-    }
+          return profileName;
+      } catch (error) {
+          return rejectWithValue((error as Error).message);
+      }
+  }
 );
 
 const settingsSlice = createSlice({
@@ -154,59 +162,59 @@ const settingsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // loadProfiles
-            .addCase(loadProfiles.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(loadProfiles.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.profiles = action.payload;
-            })
-            .addCase(loadProfiles.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload as string;
-            })
+          // loadProfiles
+          .addCase(loadProfiles.pending, (state) => {
+              state.isLoading = true;
+              state.error = null;
+          })
+          .addCase(loadProfiles.fulfilled, (state, action) => {
+              state.isLoading = false;
+              state.profiles = action.payload;
+          })
+          .addCase(loadProfiles.rejected, (state, action) => {
+              state.isLoading = false;
+              state.error = action.payload as string;
+          })
 
-            // loadProfile
-            .addCase(loadProfile.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(loadProfile.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.currentProfile = action.payload.profileName;
+          // loadProfile
+          .addCase(loadProfile.pending, (state) => {
+              state.isLoading = true;
+              state.error = null;
+          })
+          .addCase(loadProfile.fulfilled, (state, action) => {
+              state.isLoading = false;
+              state.currentProfile = action.payload.profileName;
 
-                // Update advanced settings from loaded config
-                if (action.payload.config && action.payload.config.advancedSettings) {
-                    state.advancedSettings = {
-                        ...state.advancedSettings,
-                        ...action.payload.config.advancedSettings,
-                    };
-                }
-            })
-            .addCase(loadProfile.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload as string;
-            })
+              // Update advanced settings from loaded config
+              if (action.payload.config && action.payload.config.advancedSettings) {
+                  state.advancedSettings = {
+                      ...state.advancedSettings,
+                      ...action.payload.config.advancedSettings,
+                  };
+              }
+          })
+          .addCase(loadProfile.rejected, (state, action) => {
+              state.isLoading = false;
+              state.error = action.payload as string;
+          })
 
-            // saveProfile
-            .addCase(saveProfile.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(saveProfile.fulfilled, (state, action) => {
-                state.isLoading = false;
+          // saveProfile
+          .addCase(saveProfile.pending, (state) => {
+              state.isLoading = true;
+              state.error = null;
+          })
+          .addCase(saveProfile.fulfilled, (state, action) => {
+              state.isLoading = false;
 
-                // Add to profiles list if not already there
-                if (!state.profiles.includes(action.payload)) {
-                    state.profiles.push(action.payload);
-                }
-            })
-            .addCase(saveProfile.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload as string;
-            });
+              // Add to profiles list if not already there
+              if (!state.profiles.includes(action.payload)) {
+                  state.profiles.push(action.payload);
+              }
+          })
+          .addCase(saveProfile.rejected, (state, action) => {
+              state.isLoading = false;
+              state.error = action.payload as string;
+          });
     },
 });
 

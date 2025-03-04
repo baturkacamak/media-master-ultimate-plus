@@ -31,6 +31,7 @@ import {
     BiPalette,
     BiFace,
 } from 'react-icons/bi';
+import FormatConversionSettings from '@components/modules/settings/FormatConversionSettings';
 
 const SettingsScreen: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -274,9 +275,8 @@ const SettingsScreen: React.FC = () => {
           {activeTab === 'advanced' && (
             <Card>
                 <h2 className="text-xl font-semibold mb-4">{t('settings.advanced')}</h2>
-
-                {/* Gelişmiş ayarlar içeriği... */}
-                {/* Alanların FormGroup, FormCheckbox, FormInput, vb. bileşenlerle değişmesi gerekiyor */}
+                {/* Format Conversion Settings */}
+                <FormatConversionSettings />
             </Card>
           )}
 

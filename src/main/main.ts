@@ -6,6 +6,7 @@ import log from 'electron-log';
 import { setupIpcHandlers } from './ipc-handlers';
 import { registerFileSystemHandlers } from './filesystem-handlers';
 import { initializeDatabase } from './database';
+import { cleanupFormatConversion, registerFormatConversionHandlers } from '@main/format-conversion-handlers';
 
 // Configure logger
 log.transports.file.level = 'info';
@@ -73,6 +74,7 @@ app.on('ready', async () => {
     // await initializeDatabase();
     setupIpcHandlers();
     registerFileSystemHandlers();
+    registerFormatConversionHandlers();
 
     // Create main application window
     await createWindow();
@@ -98,6 +100,21 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+// Handle any uncaught exceptions
+process.on('uncaughtException', (error) => {
+  log.error('Uncaught exception:', error);
+  dialog.showErrorBox(
+    'An error occurred',
+    `Application encountered an error: ${error.message}\n\nPlease check the log for more details.`
+  );
+});
+
+// Clean up resources before quitting
+app.on('will-quit', () => {
+  // Clean up format conversion temporary files
+  cleanupFormatConversion();
 });
 
 // Handle any uncaught exceptions

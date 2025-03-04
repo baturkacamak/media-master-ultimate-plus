@@ -86,6 +86,49 @@ export interface FileProcessing {
 }
 
 /**
+ * Format conversion settings
+ */
+export interface FormatConversionSettings {
+    enabled: boolean;
+    sourceFormat: string;
+    targetFormat: string;
+    quality: 'low' | 'medium' | 'high' | 'lossless';
+    deleteOriginal: boolean;
+    resizeWidth?: number;
+    resizeHeight?: number;
+    maintainAspectRatio: boolean;
+}
+
+/**
+ * Format conversion result
+ */
+export interface FormatConversionResult {
+    success: boolean;
+    sourcePath?: string;
+    targetPath?: string;
+    error?: string;
+}
+
+/**
+ * Batch format conversion result
+ */
+export interface BatchFormatConversionResult {
+    success: boolean;
+    converted: number;
+    failed: number;
+    targetPaths: string[];
+    error?: string;
+}
+
+/**
+ * Available format information
+ */
+export interface AvailableFormats {
+    image: string[];
+    video: string[];
+}
+
+/**
  * Electron API interface
  */
 export interface ElectronAPI {
@@ -120,6 +163,27 @@ export interface ElectronAPI {
             customRenamePattern?: string;
         };
     }) => Promise<{ success: boolean; results?: { total: number; succeeded: number; skipped: number; errors: number }; error?: string }>;
+
+    // Format conversion operations
+    convertFile: (sourcePath: string, options: {
+        targetFormat: string;
+        quality: 'low' | 'medium' | 'high' | 'lossless';
+        deleteOriginal?: boolean;
+        resizeWidth?: number;
+        resizeHeight?: number;
+        maintainAspectRatio?: boolean;
+    }) => Promise<{ success: boolean; targetPath?: string; error?: string }>;
+
+    convertFiles: (filePaths: string[], options: {
+        targetFormat: string;
+        quality: 'low' | 'medium' | 'high' | 'lossless';
+        deleteOriginal?: boolean;
+        resizeWidth?: number;
+        resizeHeight?: number;
+        maintainAspectRatio?: boolean;
+    }) => Promise<BatchFormatConversionResult>;
+
+    getAvailableFormats: () => Promise<{ success: boolean; formats?: AvailableFormats; error?: string }>;
 
     // Configuration
     saveConfig: (profileName: string, config: Record<string, any>) => Promise<{ success: boolean; error?: string }>;

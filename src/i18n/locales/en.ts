@@ -3,6 +3,7 @@ export default {
     "nav": {
         "home": "Home",
         "organize": "Organize",
+        "convert": "Convert",
         "settings": "Settings",
         "about": "About"
     },
@@ -114,6 +115,10 @@ export default {
         "formatConversion": "Enable Format Conversion",
         "convertFrom": "Convert From Format",
         "convertTo": "Convert To Format",
+        "enableFormatConversion": "Enable Format Conversion",
+        "deleteOriginal": "Delete Original Files",
+        "resizeOptions": "Resize Options",
+        "maintainAspectRatio": "Maintain Aspect Ratio",
         "quality": "Conversion Quality",
         "faceRecognition": "Enable Face Recognition",
         "videoProcessing": "Enable Video Processing",
