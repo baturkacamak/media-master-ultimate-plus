@@ -164,6 +164,50 @@ contextBridge.exposeInMainWorld('electronAPI', {
     listConfigs: () =>
       ipcRenderer.invoke('config:list'),
 
+    // Social Sharing operations
+    getAvailablePlatforms: () =>
+      ipcRenderer.invoke('social:getAvailablePlatforms'),
+
+    authenticatePlatform: (platformId: string, authCode?: string) =>
+      ipcRenderer.invoke('social:authenticatePlatform', platformId, authCode),
+
+    disconnectPlatform: (platformId: string) =>
+      ipcRenderer.invoke('social:disconnectPlatform', platformId),
+
+    configureSocialSharing: (settings: {
+        enabled: boolean;
+        platforms: Array<{
+            id: string;
+            name: string;
+            enabled: boolean;
+            apiKey?: string;
+            apiSecret?: string;
+            accessToken?: string;
+            refreshToken?: string;
+            expiresAt?: number;
+            scope?: string[];
+        }>;
+    }) => ipcRenderer.invoke('social:configureSocialSharing', settings),
+
+    shareToSocial: (platformId: string, content: {
+        text: string;
+        media?: string[];
+        hashtags?: string[];
+        linkUrl?: string;
+        linkTitle?: string;
+        linkDescription?: string;
+    }) => ipcRenderer.invoke('social:shareToSocial', platformId, content),
+
+    shareToMultiplePlatforms: (platformIds: string[], content: {
+        text: string;
+        media?: string[];
+        hashtags?: string[];
+        linkUrl?: string;
+        linkTitle?: string;
+        linkDescription?: string;
+    }) => ipcRenderer.invoke('social:shareToMultiplePlatforms', platformIds, content),
+
+
     // Event listeners
     on: (channel: string, callback: (...args: any[]) => void) => {
         const validChannels = [
@@ -180,6 +224,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
             'face:progress',
             'face:complete',
             'face:error',
+            'social:progress',
+            'social:complete',
+            'social:error',
         ];
 
         if (validChannels.includes(channel)) {

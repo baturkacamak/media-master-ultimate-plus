@@ -7,6 +7,7 @@ export default {
         "categorize": "Categorize",
         "faceRecognition": "Face Recognition",
         "exifEdit": "EXIF Edit",
+        "socialSharing": "Social Sharing",
         "settings": "Settings",
         "about": "About"
     },
@@ -249,6 +250,61 @@ export default {
             "maxFacesPerImage": "Maximum Faces Per Image",
             "enableLandmarks": "Detect Facial Landmarks (eyes, nose, mouth)",
             "enableAttributes": "Detect Face Attributes (age, gender, emotions)"
+        }
+    },
+
+    // Add this complete section to the translation file:
+    "socialSharing": {
+        "title": "Social Media Sharing",
+        "description": "Share your media files to social platforms",
+        "connectedPlatforms": "Connected Platforms",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "connected": "Connected",
+        "notConnected": "Not Connected",
+        "select": "Select for sharing",
+        "refreshPlatforms": "Refresh Platforms",
+        "noPlatformsAvailable": "No social platforms available",
+        "createPost": "Create Post",
+        "postText": "Post Text",
+        "media": "Media",
+        "addImage": "Add Image",
+        "addAnotherImage": "Add Another Image",
+        "hashtags": "Hashtags",
+        "addHashtag": "Add a hashtag (without #)",
+        "link": "Link",
+        "linkTitle": "Link Title",
+        "linkDescription": "Link Description",
+        "shareNow": "Share Now",
+        "sharing": "Sharing...",
+        "clear": "Clear",
+        "shareResults": "Share Results",
+        "viewPost": "View Post",
+        "shareSuccess": "Successfully shared to {count} platform(s)",
+        "sharePartial": "Shared to {success} of {total} platforms",
+        "shareFailed": "Failed to share to any platforms",
+        "selectPlatformWarning": "Please select at least one platform to share to",
+        "contentWarning": "Please add text or media to share",
+        "platforms": {
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "instagram": "Instagram",
+            "linkedin": "LinkedIn",
+            "pinterest": "Pinterest"
+        },
+        "settings": {
+            "title": "Social Sharing Settings",
+            "enable": "Enable Social Sharing",
+            "platformSettings": "Platform Settings",
+            "apiCredentials": "API Credentials",
+            "apiKey": "API Key",
+            "apiSecret": "API Secret",
+            "autoShare": "Auto-Share Settings",
+            "autoShareNew": "Automatically share newly organized media",
+            "autoShareDestinations": "Auto-share destinations",
+            "defaultText": "Default Post Text",
+            "defaultHashtags": "Default Hashtags",
+            "privacyNote": "Privacy Note: Your API credentials are stored locally and are never sent to our servers."
         }
     },
 

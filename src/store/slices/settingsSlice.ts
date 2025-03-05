@@ -48,6 +48,9 @@ interface AdvancedSettings {
   exifCreateBackup: boolean;
   exifBackupDir: string;
   exifEditCommands: string;
+  socialAutoShare: boolean;
+  socialDefaultText: string;
+  socialDefaultHashtags: string[];
 }
 
 interface ProfileConfig {
@@ -69,7 +72,59 @@ interface SettingsState {
   error: string | null;
 }
 
-const initialState: SettingsState = {
+const initialState: {
+  profiles: any[]; currentProfile: string; advancedSettings: {
+    enableGeoTagging: boolean;
+    enableAiCategorization: boolean;
+    aiApiKey: string;
+    aiUseLocalModel: boolean;
+    aiConfidenceThreshold: number;
+    aiMaxTags: number;
+    aiIncludeDominantColors: boolean;
+    aiIncludeObjectDetection: boolean;
+    aiCustomCategories: any[];
+    enableFaceRecognition: boolean;
+    faceApiKey: string;
+    faceUseLocalModel: boolean;
+    faceMinSize: number;
+    faceMaxSize: number;
+    faceConfidenceThreshold: number;
+    faceRecognitionThreshold: number;
+    faceEnableLandmarks: boolean;
+    faceEnableAttributes: boolean;
+    faceMaxPerImage: number;
+    enableCloudUpload: boolean;
+    cloudService: string;
+    enableScheduling: boolean;
+    scheduleTime: string;
+    enableExifEdit: boolean;
+    exifCreateBackup: boolean;
+    exifBackupDir: string;
+    exifEditCommands: string;
+    enableFormatConversion: boolean;
+    convertFormatFrom: string;
+    convertFormatTo: string;
+    convertQuality: number;
+    resizeWidth: null;
+    resizeHeight: null;
+    maintainAspectRatio: boolean;
+    deleteOriginalAfterConversion: boolean;
+    enableVideoProcessing: boolean;
+    enableWebInterface: boolean;
+    webPort: number;
+    enableSocialSharing: boolean;
+    socialPlatforms: any[];
+    socialAutoShare: boolean;
+    socialDefaultText: string;
+    socialDefaultHashtags: any[];
+    enablePlugins: boolean;
+    enableVisualization: boolean;
+    visualizationType: string;
+    enableEncryption: boolean;
+    encryptionPassword: string;
+    parallelJobs: number
+  }; isLoading: boolean; error: null
+} = {
   profiles: [],
   currentProfile: 'default',
   advancedSettings: {
@@ -112,7 +167,10 @@ const initialState: SettingsState = {
     enableWebInterface: false,
     webPort: 8080,
     enableSocialSharing: false,
-    socialPlatforms: '',
+    socialPlatforms: [],
+    socialAutoShare: false,
+    socialDefaultText: '',
+    socialDefaultHashtags: [],
     enablePlugins: false,
     enableVisualization: false,
     visualizationType: 'timeline',
@@ -195,6 +253,18 @@ const settingsSlice = createSlice({
     resetAdvancedSettings: (state) => {
       state.advancedSettings = initialState.advancedSettings;
     },
+    updateSocialSharingSettings: (state, action: PayloadAction<{
+      enableSocialSharing?: boolean;
+      socialPlatforms?: SocialPlatformConfig[];
+      socialAutoShare?: boolean;
+      socialDefaultText?: string;
+      socialDefaultHashtags?: string[];
+    }>) => {
+      state.advancedSettings = {
+        ...state.advancedSettings,
+        ...action.payload,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -258,6 +328,7 @@ export const {
   setCurrentProfile,
   updateAdvancedSettings,
   resetAdvancedSettings,
+  updateSocialSharingSettings,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

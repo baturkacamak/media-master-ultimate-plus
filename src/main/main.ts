@@ -9,6 +9,7 @@ import { cleanupAiCategorization, registerAiCategorizationHandlers } from '@main
 import { cleanupFaceRecognition, registerFaceRecognitionHandlers } from '@main/face-recognition-handlers';
 import { registerExifEditingHandlers } from '@main/exif-editing-handlers';
 import { exifToolManager } from '@main/utils/exiftool-setup';
+import { cleanupSocialSharing, registerSocialSharingHandlers } from '@main/social-sharing-handlers';
 
 // Configure logger
 log.transports.file.level = 'info';
@@ -79,6 +80,7 @@ app.on('ready', async () => {
     registerFormatConversionHandlers();
     registerAiCategorizationHandlers();
     registerFaceRecognitionHandlers();
+    registerSocialSharingHandlers();
 
     // Create main application window
     await createWindow();
@@ -131,6 +133,9 @@ app.on('will-quit', () => {
 
   // Clean up face recognition resources
   cleanupFaceRecognition();
+
+  // Clean up social sharing resources
+  cleanupSocialSharing();
 
   registerExifEditingHandlers();
 });

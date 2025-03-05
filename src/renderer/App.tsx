@@ -11,6 +11,7 @@ import AboutScreen from '../components/modules/about/AboutScreen';
 import FormatConversionScreen from '@components/modules/conversion/FormatConversionScreen';
 import AiCategorizationScreen from '@components/modules/categorization/AiCategorizationScreen';
 import FaceRecognitionScreen from '@components/modules/facerecognition/FaceRecognitionScreen';
+import SocialSharingScreen from '@components/modules/sharing/SocialSharingScreen';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ const App: React.FC = () => {
           <Route path="/categorize" element={<AiCategorizationScreen />} />
           <Route path="/facerecognition" element={<FaceRecognitionScreen />} />
           <Route path="/exifedit" element={<ExifEditScreen />} />
+          <Route path="/sharing" element={<SocialSharingScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/about" element={<AboutScreen />} />
         </Routes>

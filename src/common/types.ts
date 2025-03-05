@@ -383,7 +383,32 @@ export interface ElectronAPI {
 
     getAvailableFormats: () => Promise<{ success: boolean; formats?: AvailableFormats; error?: string }>;
 
-    // AI Categorization operations
+    // Social Sharing operations
+    configureSocialSharing: (settings: SocialSharingSettings) =>
+      Promise<{ success: boolean; error?: string }>;
+
+    shareToSocial: (
+      platformId: string,
+      content: SocialPostContent
+    ) => Promise<SocialSharingResult>;
+
+    shareToMultiplePlatforms: (
+      platformIds: string[],
+      content: SocialPostContent
+    ) => Promise<SocialSharingBatchResult>;
+
+    getAvailablePlatforms: () =>
+      Promise<{ success: boolean; platforms?: SocialPlatformConfig[]; error?: string }>;
+
+    authenticatePlatform: (
+      platformId: string,
+      authCode?: string
+    ) => Promise<{ success: boolean; platform?: SocialPlatformConfig; error?: string }>;
+
+    disconnectPlatform: (
+      platformId: string
+    ) => Promise<{ success: boolean; error?: string }>;
+
     // AI Categorization operations
     configureAi: (options: Partial<{
         useLocalModel: boolean;

@@ -35,6 +35,7 @@ import FormatConversionSettings from '@components/modules/settings/FormatConvers
 import AiCategorizationSettings from '@components/modules/settings/AiCategorizationSettings';
 import FaceRecognitionSettings from '@components/modules/settings/FaceRecognitionSettings';
 import ExifEditingSettings from '@components/modules/settings/ExifEditingSettings';
+import SocialSharingSettings from '@components/modules/settings/SocialSharingSettings';
 
 const SettingsScreen: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -286,6 +287,9 @@ const SettingsScreen: React.FC = () => {
 
                 {/* Format Conversion Settings */}
                 <FormatConversionSettings />
+
+                {/* Social Sharing Settings */}
+                <SocialSharingSettings />
 
                 <ExifEditingSettings />
             </Card>
