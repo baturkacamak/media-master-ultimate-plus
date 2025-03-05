@@ -6,6 +6,7 @@ export default {
         "convert": "Convert",
         "categorize": "Categorize",
         "faceRecognition": "Face Recognition",
+        "exifEdit": "EXIF Edit",
         "settings": "Settings",
         "about": "About"
     },
@@ -147,6 +148,18 @@ export default {
         "plugins": "Enable Plugins",
         "visualization": "Enable Visualization",
         "visualizationType": "Visualization Type",
+        "exifEditSettings": {
+            "title": "EXIF Metadata Editing",
+            "enable": "Enable EXIF Metadata Editing",
+            "backup": "Backup Settings",
+            "createBackup": "Create backup of original files before editing",
+            "backupDir": "Backup Directory Path",
+            "browse": "Browse",
+            "commonCommands": "Common EXIF Commands",
+            "commonCommandsHelp": "These are examples of common EXIF commands you can use to edit metadata:",
+            "customCommands": "Custom EXIF Edit Commands",
+            "customCommandsHelp": "Add custom ExifTool commands to be used when editing files. Each command on a new line."
+        },
         "encryption": "Enable Encryption",
         "password": "Encryption Password",
         "parallelJobs": "Parallel Processing Jobs",
@@ -237,6 +250,51 @@ export default {
             "enableLandmarks": "Detect Facial Landmarks (eyes, nose, mouth)",
             "enableAttributes": "Detect Face Attributes (age, gender, emotions)"
         }
+    },
+
+    "exifEditor": {
+        "title": "EXIF Metadata Editor",
+        "selectFiles": "Select Files",
+        "editMetadata": "Edit EXIF Metadata",
+        "fieldGroups": {
+            "datetime": "Date/Time",
+            "camera": "Camera",
+            "exposure": "Exposure",
+            "gps": "GPS",
+            "copyright": "Copyright",
+            "description": "Description",
+            "other": "Other"
+        },
+        "noMetadata": "No EXIF metadata found in this file or unsupported file format.",
+        "edited": "Edited",
+        "notSet": "Not set",
+        "template": "Template",
+        "templates": "EXIF Templates",
+        "saveTemplate": "Save Template",
+        "loadTemplate": "Load Template",
+        "deleteTemplate": "Delete Template",
+        "templateName": "Template Name",
+        "noChanges": "No changes to save as template",
+        "export": "Export",
+        "import": "Import",
+        "backupOptions": "Backup Options",
+        "createBackup": "Create backup before editing",
+        "backupDir": "Backup Directory",
+        "applyAll": "Apply to All Files",
+        "clearEdits": "Clear Edits",
+        "saveChanges": "Save Changes",
+        "confirmClear": "Are you sure you want to clear all edits?",
+        "confirmSwitch": "You have unsaved changes. Are you sure you want to switch files?",
+        "processing": "Processing...",
+        "results": {
+            "changesApplied": "Changes Applied",
+            "issuesOccurred": "Completed with Issues",
+            "totalFiles": "Total Files",
+            "succeeded": "Succeeded",
+            "failed": "Failed",
+            "failedFiles": "Failed Files"
+        },
+        "showAllFields": "Show all fields"
     },
 
     // About Screen

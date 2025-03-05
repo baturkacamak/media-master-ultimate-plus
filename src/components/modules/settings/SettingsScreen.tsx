@@ -33,6 +33,8 @@ import {
 } from 'react-icons/bi';
 import FormatConversionSettings from '@components/modules/settings/FormatConversionSettings';
 import AiCategorizationSettings from '@components/modules/settings/AiCategorizationSettings';
+import FaceRecognitionSettings from '@components/modules/settings/FaceRecognitionSettings';
+import ExifEditingSettings from '@components/modules/settings/ExifEditingSettings';
 
 const SettingsScreen: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -272,7 +274,7 @@ const SettingsScreen: React.FC = () => {
             </Card>
           )}
 
-          {/* Advanced Settings - Burada diğer gelişmiş ayar bileşenleri olacak (kısaltıldı) */}
+          {/* Advanced Settings */}
           {activeTab === 'advanced' && (
             <Card>
                 <h2 className="text-xl font-semibold mb-4">{t('settings.advanced')}</h2>
@@ -284,6 +286,8 @@ const SettingsScreen: React.FC = () => {
 
                 {/* Format Conversion Settings */}
                 <FormatConversionSettings />
+
+                <ExifEditingSettings />
             </Card>
           )}
 

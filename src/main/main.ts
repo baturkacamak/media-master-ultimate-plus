@@ -1,14 +1,14 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 import * as path from 'path';
-import * as fs from 'fs';
 import * as url from 'url';
 import log from 'electron-log';
 import { setupIpcHandlers } from './ipc-handlers';
 import { registerFileSystemHandlers } from './filesystem-handlers';
-import { initializeDatabase } from './database';
 import { cleanupFormatConversion, registerFormatConversionHandlers } from '@main/format-conversion-handlers';
 import { cleanupAiCategorization, registerAiCategorizationHandlers } from '@main/ai-categorization-handlers';
 import { cleanupFaceRecognition, registerFaceRecognitionHandlers } from '@main/face-recognition-handlers';
+import { registerExifEditingHandlers } from '@main/exif-editing-handlers';
+import { exifToolManager } from '@main/utils/exiftool-setup';
 
 // Configure logger
 log.transports.file.level = 'info';
@@ -83,6 +83,12 @@ app.on('ready', async () => {
     // Create main application window
     await createWindow();
 
+    try {
+      await exifToolManager.initialize();
+    } catch (error) {
+      log.error('Failed to initialize ExifTool:', error);
+    }
+
     log.info('Application started successfully');
   } catch (error) {
     log.error('Failed to start application:', error);
@@ -111,7 +117,7 @@ process.on('uncaughtException', (error) => {
   log.error('Uncaught exception:', error);
   dialog.showErrorBox(
     'An error occurred',
-    `Application encountered an error: ${error.message}\n\nPlease check the log for more details.`
+    `Application encountered an error: ${error.message}\n\nPlease check the log for more details.`,
   );
 });
 
@@ -125,6 +131,8 @@ app.on('will-quit', () => {
 
   // Clean up face recognition resources
   cleanupFaceRecognition();
+
+  registerExifEditingHandlers();
 });
 
 // Handle any uncaught exceptions
@@ -132,6 +140,6 @@ process.on('uncaughtException', (error) => {
   log.error('Uncaught exception:', error);
   dialog.showErrorBox(
     'An error occurred',
-    `Application encountered an error: ${error.message}\n\nPlease check the log for more details.`
+    `Application encountered an error: ${error.message}\n\nPlease check the log for more details.`,
   );
 });

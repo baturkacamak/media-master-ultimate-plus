@@ -82,6 +82,7 @@
     "i18next": "^24.2.2",
     "image-js": "^0.36.0",
     "mini-css-extract-plugin": "^2.9.2",
+    "piexifjs": "^1.0.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",

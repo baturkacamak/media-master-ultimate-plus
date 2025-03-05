@@ -24,8 +24,6 @@ interface AdvancedSettings {
   cloudService: string;
   enableScheduling: boolean;
   scheduleTime: string;
-  enableExifEdit: boolean;
-  exifEditCommands: string;
   enableFormatConversion: boolean;
   convertFormatFrom: string;
   convertFormatTo: string;
@@ -45,6 +43,11 @@ interface AdvancedSettings {
   enableEncryption: boolean;
   encryptionPassword: string;
   parallelJobs: number;
+  // Add these EXIF editing settings
+  enableExifEdit: boolean;
+  exifCreateBackup: boolean;
+  exifBackupDir: string;
+  exifEditCommands: string;
 }
 
 interface ProfileConfig {
@@ -94,6 +97,8 @@ const initialState: SettingsState = {
     enableScheduling: false,
     scheduleTime: '',
     enableExifEdit: false,
+    exifCreateBackup: true,
+    exifBackupDir: '',
     exifEditCommands: '',
     enableFormatConversion: false,
     convertFormatFrom: 'jpg',

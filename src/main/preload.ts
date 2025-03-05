@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import { ExifBackupOptions, ExifEditOperation } from '@main/services/exif-editor';
 
 // Define the API exposed to the renderer process
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -135,6 +136,25 @@ contextBridge.exposeInMainWorld('electronAPI', {
       ipcRenderer.invoke('face:removeFaceFromPerson', personId, faceId),
 
     getAvailableFormats: () => ipcRenderer.invoke('conversion:getAvailableFormats'),
+
+    // EXIF Editing operations
+    readExifMetadata: (filePath: string) =>
+      ipcRenderer.invoke('exif:readMetadata', filePath),
+
+    getExifCommonFields: (filePath: string) =>
+      ipcRenderer.invoke('exif:getCommonFields', filePath),
+
+    editExifMetadata: (operation: ExifEditOperation, options: ExifBackupOptions) =>
+      ipcRenderer.invoke('exif:editMetadata', operation, options),
+
+    batchEditExif: (operations: ExifEditOperation[], options: ExifBackupOptions) =>
+      ipcRenderer.invoke('exif:batchEdit', operations, options),
+
+    applyExifTemplate: (filePaths: string[], template: Omit<ExifEditOperation, 'filePath'>[], options: ExifBackupOptions) =>
+      ipcRenderer.invoke('exif:applyTemplate', filePaths, template, options),
+
+    configureExifBackup: (backupDir: string | null) =>
+      ipcRenderer.invoke('exif:configureBackup', backupDir),
 
     // Configuration
     saveConfig: (profileName: string, config: Record<string, any>) =>

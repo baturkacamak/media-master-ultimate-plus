@@ -39,6 +39,7 @@ const App: React.FC = () => {
           <Route path="/convert" element={<FormatConversionScreen />} />
           <Route path="/categorize" element={<AiCategorizationScreen />} />
           <Route path="/facerecognition" element={<FaceRecognitionScreen />} />
+          <Route path="/exifedit" element={<ExifEditScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/about" element={<AboutScreen />} />
         </Routes>

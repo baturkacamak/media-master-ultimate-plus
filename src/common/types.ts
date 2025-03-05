@@ -128,6 +128,46 @@ export interface AvailableFormats {
     video: string[];
 }
 
+/**
+ * EXIF field structure
+ */
+export interface ExifField {
+    tag: string;         // EXIF tag name
+    value: string;       // Current value
+    description: string; // User-friendly description
+    editable: boolean;   // Whether this field can be edited
+    type: 'text' | 'date' | 'number' | 'gps' | 'select'; // Field data type
+    options?: string[];  // For select type fields, available options
+}
+
+/**
+ * EXIF edit operation
+ */
+export interface ExifEditOperation {
+    filePath: string;    // Target file path
+    tag: string;         // EXIF tag to modify
+    value: string;       // New value
+    operation: 'set' | 'remove'; // Operation type
+}
+
+/**
+ * EXIF backup options
+ */
+export interface ExifBackupOptions {
+    createBackup: boolean;
+    backupDir?: string;
+}
+
+/**
+ * EXIF edit batch result
+ */
+export interface ExifEditResult {
+    success: boolean;
+    editedFiles: string[];
+    failedFiles: Record<string, string>; // filepath -> error message
+    error?: string;
+}
+
 
 /**
  * AI categorization tag
