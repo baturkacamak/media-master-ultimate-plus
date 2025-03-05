@@ -303,16 +303,16 @@ export default {
         "version": "Version",
         "description": "Media Master is an advanced media organization tool designed to help you manage your photos and videos intelligently.",
         "features": "Key Features",
-        "featureList": [
-            "Organize media files by date, type, or camera",
-            "Extract and use EXIF metadata",
-            "Detect and handle duplicates",
-            "AI-powered content categorization",
-            "Cloud storage integration",
-            "Face recognition and grouping",
-            "Video processing and scene detection",
-            "Visualization and reporting",
-            "Platform-independent operation"
+        'featureList': [
+            'Smart media organization by date, type, and camera model',
+            'Advanced EXIF metadata extraction and editing',
+            'Intelligent duplicate detection and handling',
+            'AI-powered image categorization with custom tag support',
+            'Comprehensive face recognition with people management',
+            'Batch format conversion for images and videos',
+            'Metadata preservation and backup',
+            'Customizable processing with confidence thresholds',
+            'Cross-platform support with multilingual interface'
         ],
         "developer": "Developed by",
         "license": "License",
