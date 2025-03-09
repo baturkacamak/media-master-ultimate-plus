@@ -12,6 +12,8 @@ import FormatConversionScreen from '@components/modules/conversion/FormatConvers
 import AiCategorizationScreen from '@components/modules/categorization/AiCategorizationScreen';
 import FaceRecognitionScreen from '@components/modules/facerecognition/FaceRecognitionScreen';
 import SocialSharingScreen from '@components/modules/sharing/SocialSharingScreen';
+import CloudStorageScreen from '@components/modules/cloud/CloudStorageScreen';
+import ExifEditScreen from '@components/modules/exifedit/ExifEditScreen';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -42,6 +44,7 @@ const App: React.FC = () => {
           <Route path="/facerecognition" element={<FaceRecognitionScreen />} />
           <Route path="/exifedit" element={<ExifEditScreen />} />
           <Route path="/sharing" element={<SocialSharingScreen />} />
+          <Route path="/cloud" element={<CloudStorageScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/about" element={<AboutScreen />} />
         </Routes>

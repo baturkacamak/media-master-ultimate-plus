@@ -7,6 +7,7 @@ export default {
     'categorize': 'Kategorize Et',
     'faceRecognition': 'Yüz Tanıma',
     'socialSharing': 'Sosyal Paylaşım',
+    "cloud": "Bulut Depolama",
     'settings': 'Ayarlar',
     'about': 'Hakkında',
   },
@@ -159,6 +160,16 @@ export default {
       'en': 'İngilizce',
       'tr': 'Türkçe',
     },
+    "cloudStorage": "Bulut Depolama",
+    "enableCloudUpload": "Bulut Yüklemeyi Etkinleştir",
+    "cloudServices": "Bulut Hizmetleri",
+    "cloudUploadSettings": "Bulut Yükleme Ayarları",
+    "preserveDirectoryStructure": "Dizin Yapısını Koru",
+    "uploadAfterOrganizing": "Düzenlemeden Sonra Dosyaları Yükle",
+    "connected": "Bağlı",
+    "notConnected": "Bağlı Değil",
+    "connect": "Bağlan",
+    "disconnect": "Bağlantıyı Kes",
   },
 
   // Add new face recognition translations
@@ -213,6 +224,22 @@ export default {
       'enableLandmarks': 'Yüz İşaretlerini Algıla (gözler, burun, ağız)',
       'enableAttributes': 'Yüz Özelliklerini Algıla (yaş, cinsiyet, duygular)',
     },
+  },
+
+  "cloud": {
+    "title": "Bulut Depolama",
+    "selectProvider": "Bulut Depolama Sağlayıcısı Seçin",
+    "noConnectedProviders": "Bağlı bulut depolama sağlayıcınız yok.",
+    "goToSettings": "Ayarlara Git",
+    "fileExplorer": "Bulut Dosya Gezgini",
+    "selectFiles": "Dosya Seç",
+    "uploadFiles": "Dosyaları Yükle",
+    "newFolderName": "Yeni klasör adı",
+    "createFolder": "Klasör Oluştur",
+    "uploadingProgress": "{{total}} dosyadan {{processed}} tanesi yükleniyor",
+    "selectedFiles": "Seçilen Dosyalar",
+    "noFiles": "Bu klasörde dosya yok",
+    "folder": "Klasör"
   },
 
   'socialSharing': {

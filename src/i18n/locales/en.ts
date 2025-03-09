@@ -8,6 +8,7 @@ export default {
         "faceRecognition": "Face Recognition",
         "exifEdit": "EXIF Edit",
         "socialSharing": "Social Sharing",
+        "cloud": "Cloud Storage",
         "settings": "Settings",
         "about": "About"
     },
@@ -168,6 +169,16 @@ export default {
         "resetSettings": "Reset to Default",
         "settingsSaved": "Settings saved successfully",
         "settingsError": "Error saving settings",
+        "cloudStorage": "Cloud Storage",
+        "enableCloudUpload": "Enable Cloud Upload",
+        "cloudServices": "Cloud Services",
+        "cloudUploadSettings": "Cloud Upload Settings",
+        "preserveDirectoryStructure": "Preserve Directory Structure",
+        "uploadAfterOrganizing": "Upload Files After Organizing",
+        "connected": "Connected",
+        "notConnected": "Not Connected",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
         "languages": {
             "en": "English",
             "tr": "Turkish"
@@ -306,6 +317,22 @@ export default {
             "defaultHashtags": "Default Hashtags",
             "privacyNote": "Privacy Note: Your API credentials are stored locally and are never sent to our servers."
         }
+    },
+
+    "cloud": {
+        "title": "Cloud Storage",
+        "selectProvider": "Select Cloud Storage Provider",
+        "noConnectedProviders": "You don't have any connected cloud storage providers.",
+        "goToSettings": "Go to Settings",
+        "fileExplorer": "Cloud File Explorer",
+        "selectFiles": "Select Files",
+        "uploadFiles": "Upload Files",
+        "newFolderName": "New folder name",
+        "createFolder": "Create Folder",
+        "uploadingProgress": "Uploading {{processed}} of {{total}} files",
+        "selectedFiles": "Selected Files",
+        "noFiles": "No files in this folder",
+        "folder": "Folder"
     },
 
     "exifEditor": {

@@ -51,6 +51,8 @@ interface AdvancedSettings {
   socialAutoShare: boolean;
   socialDefaultText: string;
   socialDefaultHashtags: string[];
+  preserveDirectoryStructure: boolean;
+  uploadAfterOrganizing: boolean;
 }
 
 interface ProfileConfig {
@@ -122,7 +124,9 @@ const initialState: {
     visualizationType: string;
     enableEncryption: boolean;
     encryptionPassword: string;
-    parallelJobs: number
+    parallelJobs: number;
+    preserveDirectoryStructure: boolean;
+    uploadAfterOrganizing: boolean
   }; isLoading: boolean; error: null
 } = {
   profiles: [],
@@ -177,6 +181,8 @@ const initialState: {
     enableEncryption: false,
     encryptionPassword: '',
     parallelJobs: 1,
+    preserveDirectoryStructure: true,
+    uploadAfterOrganizing: false,
   },
   isLoading: false,
   error: null,

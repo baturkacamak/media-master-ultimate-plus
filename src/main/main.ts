@@ -10,6 +10,7 @@ import { cleanupFaceRecognition, registerFaceRecognitionHandlers } from '@main/f
 import { registerExifEditingHandlers } from '@main/exif-editing-handlers';
 import { exifToolManager } from '@main/utils/exiftool-setup';
 import { cleanupSocialSharing, registerSocialSharingHandlers } from '@main/social-sharing-handlers';
+import { cleanupCloudStorage, registerCloudStorageHandlers } from '@main/cloud-storage-handlers';
 
 // Configure logger
 log.transports.file.level = 'info';
@@ -81,6 +82,7 @@ app.on('ready', async () => {
     registerAiCategorizationHandlers();
     registerFaceRecognitionHandlers();
     registerSocialSharingHandlers();
+    registerCloudStorageHandlers();
 
     // Create main application window
     await createWindow();
@@ -136,6 +138,8 @@ app.on('will-quit', () => {
 
   // Clean up social sharing resources
   cleanupSocialSharing();
+
+  cleanupCloudStorage();
 
   registerExifEditingHandlers();
 });

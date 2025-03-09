@@ -36,6 +36,7 @@ import AiCategorizationSettings from '@components/modules/settings/AiCategorizat
 import FaceRecognitionSettings from '@components/modules/settings/FaceRecognitionSettings';
 import ExifEditingSettings from '@components/modules/settings/ExifEditingSettings';
 import SocialSharingSettings from '@components/modules/settings/SocialSharingSettings';
+import CloudStorageSettings from '@components/modules/settings/CloudStorageSettings';
 
 const SettingsScreen: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -292,6 +293,9 @@ const SettingsScreen: React.FC = () => {
                 <SocialSharingSettings />
 
                 <ExifEditingSettings />
+
+                {/* Cloud Storage Settings */}
+                <CloudStorageSettings />
             </Card>
           )}
 

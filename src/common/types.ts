@@ -327,11 +327,99 @@ export interface BatchFaceRecognitionResult {
 }
 
 /**
+ * Cloud provider types
+ */
+export type CloudProvider = 'google-drive' | 'dropbox' | 'onedrive';
+
+/**
+ * Cloud storage configuration
+ */
+export interface CloudStorageConfig {
+    name: string;
+    clientId: string;
+    clientSecret: string;
+    redirectUri: string;
+    scopes: string[];
+    enabled: boolean;
+    tokenData: any | null;
+}
+
+/**
+ * Cloud file structure
+ */
+export interface CloudFile {
+    id: string;
+    name: string;
+    isFolder: boolean;
+    size: number;
+    createdAt: Date;
+    modifiedAt: Date;
+    viewUrl: string;
+    provider: CloudProvider;
+}
+
+/**
+ * Upload options
+ */
+export interface UploadOptions {
+    folderId?: string;
+    fileName?: string;
+    mimeType?: string;
+    preserveDirectoryStructure?: boolean;
+    basePath?: string;
+}
+
+/**
+ * Cloud storage provider info with connected status
+ */
+export interface CloudProviderInfo {
+    id: CloudProvider;
+    name: string;
+    isConnected: boolean;
+    icon: string;
+}
+
+/**
+ * Cloud upload progress
+ */
+export interface CloudUploadProgress {
+    file: string;
+    processed: number;
+    total: number;
+    percentage: number;
+}
+
+/**
+ * Cloud upload completion
+ */
+export interface CloudUploadCompletion {
+    total: number;
+    processed: number;
+    failed: number;
+}
+
+/**
  * Electron API interface
  */
 export interface ElectronAPI {
     // App info
     getAppVersion: () => Promise<string>;
+
+    // Cloud Storage
+    initializeCloudStorage: () => Promise<{ success: boolean; error?: string }>;
+    configureCloudProvider: (provider: CloudProvider, config: Partial<CloudStorageConfig>) => Promise<{ success: boolean; error?: string }>;
+    getProviderConfig: (provider: CloudProvider) => Promise<{ success: boolean; config?: CloudStorageConfig; error?: string }>;
+    getAllProviderConfigs: () => Promise<{ success: boolean; configs?: Record<CloudProvider, CloudStorageConfig>; error?: string }>;
+    setActiveProvider: (provider: CloudProvider) => Promise<{ success: boolean; error?: string }>;
+    getActiveProvider: () => Promise<{ success: boolean; provider?: CloudProvider | null; error?: string }>;
+    getAuthorizationUrl: (provider: CloudProvider) => Promise<{ success: boolean; url?: string; error?: string }>;
+    exchangeCodeForToken: (provider: CloudProvider, code: string) => Promise<{ success: boolean; error?: string }>;
+    listCloudFiles: (provider: CloudProvider, folderId?: string) => Promise<{ success: boolean; files?: CloudFile[]; error?: string }>;
+    uploadToCloud: (provider: CloudProvider, filePath: string, options: UploadOptions) => Promise<{ success: boolean; file?: CloudFile; error?: string }>;
+    uploadFilesToCloud: (provider: CloudProvider, filePaths: string[], options: UploadOptions) => Promise<{ success: boolean; results?: CloudFile[]; processed?: number; failed?: number; error?: string }>;
+    createCloudFolder: (provider: CloudProvider, folderName: string, parentFolderId?: string) => Promise<{ success: boolean; folder?: CloudFile; error?: string }>;
+    downloadFromCloud: (provider: CloudProvider, fileId: string, destinationPath: string) => Promise<{ success: boolean; filePath?: string; error?: string }>;
+    disconnectCloudProvider: (provider: CloudProvider) => Promise<{ success: boolean; error?: string }>;
 
     // File system operations
     selectDirectory: (options?: { title?: string; defaultPath?: string }) => Promise<string | null>;

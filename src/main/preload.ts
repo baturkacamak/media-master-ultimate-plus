@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { ExifBackupOptions, ExifEditOperation } from '@main/services/exif-editor';
+import { CloudProvider, UploadOptions } from '@common/types';
 
 // Define the API exposed to the renderer process
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -156,6 +157,36 @@ contextBridge.exposeInMainWorld('electronAPI', {
     configureExifBackup: (backupDir: string | null) =>
       ipcRenderer.invoke('exif:configureBackup', backupDir),
 
+    // Cloud Storage operations
+    cloudStorageInitialize: () =>
+      ipcRenderer.invoke('cloud:initialize'),
+    configureCloudProvider: (provider: CloudProvider, config: any) =>
+      ipcRenderer.invoke('cloud:configureProvider', provider, config),
+    getProviderConfig: (provider: CloudProvider) =>
+      ipcRenderer.invoke('cloud:getProviderConfig', provider),
+    getAllProviderConfigs: () =>
+      ipcRenderer.invoke('cloud:getAllProviderConfigs'),
+    setActiveProvider: (provider: CloudProvider) =>
+      ipcRenderer.invoke('cloud:setActiveProvider', provider),
+    getActiveProvider: () =>
+      ipcRenderer.invoke('cloud:getActiveProvider'),
+    getAuthorizationUrl: (provider: CloudProvider) =>
+      ipcRenderer.invoke('cloud:getAuthorizationUrl', provider),
+    exchangeCodeForToken: (provider: CloudProvider, code: string) =>
+      ipcRenderer.invoke('cloud:exchangeCodeForToken', provider, code),
+    listCloudFiles: (provider: CloudProvider, folderId?: string) =>
+      ipcRenderer.invoke('cloud:listFiles', provider, folderId),
+    uploadToCloud: (provider: CloudProvider, filePath: string, options: UploadOptions) =>
+      ipcRenderer.invoke('cloud:uploadFile', provider, filePath, options),
+    uploadFilesToCloud: (provider: CloudProvider, filePaths: string[], options: UploadOptions) =>
+      ipcRenderer.invoke('cloud:uploadFiles', provider, filePaths, options),
+    createCloudFolder: (provider: CloudProvider, folderName: string, parentFolderId?: string) =>
+      ipcRenderer.invoke('cloud:createFolder', provider, folderName, parentFolderId),
+    downloadFromCloud: (provider: CloudProvider, fileId: string, destinationPath: string) =>
+      ipcRenderer.invoke('cloud:downloadFile', provider, fileId, destinationPath),
+    disconnectCloudProvider: (provider: CloudProvider) =>
+      ipcRenderer.invoke('cloud:disconnect', provider),
+
     // Configuration
     saveConfig: (profileName: string, config: Record<string, any>) =>
       ipcRenderer.invoke('config:save', profileName, config),
@@ -227,6 +258,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
             'social:progress',
             'social:complete',
             'social:error',
+            'cloud:progress',
+            'cloud:complete',
+            'cloud:error',
         ];
 
         if (validChannels.includes(channel)) {

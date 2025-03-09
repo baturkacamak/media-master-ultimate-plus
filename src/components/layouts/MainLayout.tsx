@@ -7,7 +7,7 @@ import { toggleDarkMode } from '@store/slices/appSlice';
 
 // Import icons
 import {
-  BiCategory,
+  BiCategory, BiCloud,
   BiCog,
   BiFolder,
   BiHome,
@@ -15,7 +15,7 @@ import {
   BiInfoCircle,
   BiMenu,
   BiMoon, BiShareAlt,
-  BiSun, BiUserVoice,
+  BiSun, BiTag, BiUserVoice,
   BiX,
 } from 'react-icons/bi';
 
@@ -43,6 +43,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, appVersion }) => {
     { path: '/facerecognition', label: t('nav.faceRecognition'), icon: <BiUserVoice size={24} /> },
     { path: '/exifedit', label: t('nav.exifEdit'), icon: <BiTag size={24} /> },
     { path: '/sharing', label: t('nav.socialSharing'), icon: <BiShareAlt size={24} /> },
+    { path: '/cloud', label: t('nav.cloud'), icon: <BiCloud size={24} /> }
     { path: '/settings', label: t('nav.settings'), icon: <BiCog size={24} /> },
     { path: '/about', label: t('nav.about'), icon: <BiInfoCircle size={24} /> },
   ];

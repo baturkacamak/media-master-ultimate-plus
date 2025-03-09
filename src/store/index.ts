@@ -13,6 +13,7 @@ export const store = configureStore({
     settings: settingsReducer,
     files: filesReducer,
     sharing: sharingReducer,
+    cloudStorage: cloudStorageReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
